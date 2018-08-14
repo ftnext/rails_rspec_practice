@@ -2,11 +2,22 @@ require 'rails_helper'
 
 RSpec.describe "Post controller", :type => :request do
   describe "GET #index" do
+    before do
+      FactoryBot.create :post_1
+      FactoryBot.create :post_2
+    end
+
     it "returns http success" do
       get "/posts/index"
-      expect(response).to have_http_status(:success)
+      expect(response.status).to eq 200
+      #expect(response).to have_http_status(:success)
     end
-    it "renders the :index template"
+
+    it "ポストの名前が表示されていること" do
+      get "/posts/index"
+      expect(response.body).to include "This is first post."
+      expect(response.body).to include "2nd Post"
+    end
   end
 
   describe "GET #edit" do
