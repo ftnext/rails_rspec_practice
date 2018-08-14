@@ -31,9 +31,9 @@ RSpec.describe "Post controller", :type => :request do
   describe "GET #new" do
     it "returns http success" do
       get "/posts/new"
-      expect(response).to have_http_status(:success)
+      expect(response.status).to eq 200
     end
-    it "renders the :new template"
+    # フォームからPostを作成するテストはfeature specとする
   end
 
   describe "POST #create" do
