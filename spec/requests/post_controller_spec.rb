@@ -21,11 +21,16 @@ RSpec.describe "Post controller", :type => :request do
   end
 
   describe "GET #edit" do
+    let(:post_1) { FactoryBot.create :post_1 }
     it "returns http success" do
-      get "/posts/edit"
-      expect(response).to have_http_status(:success)
+      # パスの直接指定はSyntax Errorとなるため、名前付きヘルパーを使用
+      get posts_edit_url post_1
+      expect(response.status).to eq 200
     end
-    it "renders the :edit template"
+    it "ポストの名前が表示されていること" do
+      get posts_edit_url post_1
+      expect(response.body).to include "This is first post."
+    end
   end
 
   describe "GET #new" do
