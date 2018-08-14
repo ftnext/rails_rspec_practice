@@ -1,24 +1,24 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RailsのテストをRSpecを書く練習をするためのリポジトリ  
 
-Things you may want to cover:
+* Ruby version: 2.4.1
+* Rails version: 5.1.6
+* rspec-rails version: 3.8.0
 
-* Ruby version
+環境構築はDockerを用いている。(DBはmysqlを使用)  
+このリポジトリをcloneした後、
 
-* System dependencies
+```
+$ docker-compose up -d
+```
 
-* Configuration
+をすると環境が立ち上がる。  
+初回起動時はrailsコマンドによるDBの設定が必要。
 
-* Database creation
+```
+$ docker exec -it <webコンテナ名> bash
+# rails db:create
+```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+MIT License
