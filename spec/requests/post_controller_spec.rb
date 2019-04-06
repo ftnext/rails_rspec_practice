@@ -43,11 +43,39 @@ RSpec.describe "Post controller", :type => :request do
 
   describe "POST #create" do
     describe "正常系" do
-      it "is redirected to #index"
+      it "returns http success" do
+        post posts_create_url, params: { post: FactoryBot.attributes_for(:post) }
+        expect(response.status).to eq 302
+      end
+      it "ポストが登録されること" do
+        expect do
+          post posts_create_url, params: { post: FactoryBot.attributes_for(:post) }
+        end.to change(Post, :count).by(1)
+      end
+      it "is redirected to #index" do
+        post posts_create_url, params: { post: FactoryBot.attributes_for(:post) }
+        expect(response).to redirect_to Post.last # どのページを期待？
+      end
     end
 
     describe "異常系" do
-      it "renders the :new template"
+      it "returns http success" do
+        post posts_create_url, params: { post: FactoryBot.attributes_for(:post, :invalid) }
+        expect(response.status).to eq 302
+      end
+      it "ポストが登録されないこと" do
+        expect do
+          post posts_create_url, params: { post: FactoryBot.attributes_for(:post, :invalid) }
+        end.to_not change(Post, :count) # change().by(0)でもいい？
+      end
+      it "renders the :new template" do
+        post posts_create_url, params: { post: FactoryBot.attributes_for(:post, :invalid) }
+        expect(response).to redirect_to :new # この書き方でいい？
+      end
+      it "エラーが表示されること" do
+        post posts_create_url, params: { post: FactoryBot.attributes_for(:post, :invalid) }
+        expect(response.body).to include '名前は255文字以内で入力してください。'
+      end
     end
   end
 
